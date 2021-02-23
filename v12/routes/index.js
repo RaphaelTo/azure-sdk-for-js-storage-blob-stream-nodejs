@@ -10,7 +10,7 @@ const {
 
 const express = require('express');
 const router = express.Router();
-const containerName1 = 'thumbnails';
+const containerName1 = 'images';
 const multer = require('multer');
 const inMemoryStorage = multer.memoryStorage();
 const uploadStrategy = multer({ storage: inMemoryStorage }).single('image');
@@ -23,6 +23,7 @@ const ONE_MINUTE = 60 * 1000;
 const sharedKeyCredential = new StorageSharedKeyCredential(
   process.env.AZURE_STORAGE_ACCOUNT_NAME,
   process.env.AZURE_STORAGE_ACCOUNT_ACCESS_KEY);
+
 const pipeline = newPipeline(sharedKeyCredential);
 
 const blobServiceClient = new BlobServiceClient(
@@ -68,7 +69,8 @@ router.get('/', async (req, res, next) => {
     };
     res.status(500);
   } finally {
-    res.render(viewData.viewName, viewData);
+      console.log('viewData',viewData)
+      res.render(viewData.viewName, viewData);
   }
 });
 
